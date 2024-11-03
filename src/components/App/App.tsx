@@ -1,26 +1,32 @@
 import { useEffect, useState } from "react"
-import SearchBar from "./components/SearchBar/SearchBar"
-import { fetchImages } from "./services/api"
-import ImageGallery from "./components/ImageGallery/ImageGallery"
-import Loader from "./components/Loader/Loader"
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage"
-import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn"
-import ImageModal from "./components/ImageModal/ImageModal"
+import SearchBar from "../SearchBar/SearchBar.js"
+import { fetchImages } from "../../services/api.js"
+import ImageGallery from "../ImageGallery/ImageGallery.js"
+import Loader from "../Loader/Loader.js"
+import ErrorMessage from "../ErrorMessage/ErrorMessage.js"
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn.js"
+import ImageModal from "../ImageModal/ImageModal.js"
+import { Image } from "./App.js"
+import React from "react"
 
 const App = () => {
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState<Image[]>(
+    []
+  )
   const [isLoading, setIsLoading] =
-    useState(false)
-  const [isError, setIsError] = useState(false)
-  const [query, setQuery] = useState("")
-  const [page, setPage] = useState("1")
+    useState<boolean>(false)
+  const [isError, setIsError] =
+    useState<boolean>(false)
+  const [query, setQuery] = useState<string>("")
+  const [page, setPage] = useState<number>(1)
   const [totalImages, setTotalImages] =
-    useState(0)
+    useState<number>(0)
   const [hasSearched, setHasSearched] =
-    useState(false)
-  const [modalIsOpen, setIsOpen] = useState(false)
+    useState<boolean>(false)
+  const [modalIsOpen, setIsOpen] =
+    useState<boolean>(false)
   const [selectedImage, setSelectedImage] =
-    useState(null)
+    useState<Image | null>(null)
 
   useEffect(() => {
     if (!query) {
@@ -52,13 +58,15 @@ const App = () => {
     getData()
   }, [query, page])
 
-  const handleSetQuery = (searchValue) => {
+  const handleSetQuery: React.Dispatch<
+    React.SetStateAction<string>
+  > = (searchValue) => {
     setQuery(searchValue)
     setImages([])
     setPage(1)
   }
 
-  const openModal = (image) => {
+  const openModal = (image: Image) => {
     document.body.style.overflow = "hidden"
     setSelectedImage(image)
     setIsOpen(true)
